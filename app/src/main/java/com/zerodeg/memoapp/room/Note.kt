@@ -1,4 +1,4 @@
-package com.zerodeg.memoapp.data
+package com.zerodeg.memoapp.room
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

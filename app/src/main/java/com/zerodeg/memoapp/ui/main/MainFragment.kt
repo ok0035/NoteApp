@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.zerodeg.memoapp.databinding.MainFragmentBinding
 
 class MainFragment : Fragment() {
+    //메모 리스트를 뿌려준다.
 
     private var _binding:MainFragmentBinding? = null
     private val binding get() = _binding!!
@@ -17,7 +18,7 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +30,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

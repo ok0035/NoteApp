@@ -2,16 +2,14 @@ package com.zerodeg.memoapp
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.zerodeg.memoapp.data.Note
-import com.zerodeg.memoapp.data.NoteDatabase
+import com.zerodeg.memoapp.room.Note
+import com.zerodeg.memoapp.room.NoteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
 
 /**
  * Instrumented test, which will execute on an Android device.

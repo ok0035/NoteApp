@@ -1,10 +1,5 @@
 package com.zerodeg.memoapp
 
-import com.zerodeg.memoapp.data.NoteDatabase
-import com.zerodeg.memoapp.data.Note
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.junit.Test
 
 /**
