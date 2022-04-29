@@ -6,7 +6,6 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.zerodeg.memoapp.App
-import com.zerodeg.memoapp.R
 import com.zerodeg.memoapp.databinding.NoteItemBinding
 import com.zerodeg.memoapp.room.Note
 
@@ -14,7 +13,7 @@ class NoteListAdapter: RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>(
 
     private var _binding:NoteItemBinding? = null
     private val binding get() = _binding
-    private val noteList:MutableList<Note> = mutableListOf()
+    private var noteList:List<Note> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListViewHolder {
         val inflater = LayoutInflater.from(App.applicationContext())
@@ -23,15 +22,20 @@ class NoteListAdapter: RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>(
     }
 
     override fun onBindViewHolder(holder: NoteListViewHolder, position: Int) {
-        
+        holder.bind(noteList[position])
     }
 
     override fun getItemId(position: Int): Long {
-        return super.getItemId(position)
+        return noteList[position].id.toLong()
     }
 
     override fun getItemCount(): Int {
         return noteList.size
+    }
+
+    fun submitList(list:List<Note>) {
+        noteList = list
+        notifyDataSetChanged()
     }
 
     class NoteListViewHolder(binding: NoteItemBinding): RecyclerView.ViewHolder(binding.root) {
@@ -39,6 +43,19 @@ class NoteListAdapter: RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>(
         val select: CheckBox = binding.select
         val title: TextView = binding.title
         val content: TextView = binding.content
+        var id:Int? = null
+
+        init {
+            binding.root.setOnClickListener {
+                println("click itemView")
+            }
+        }
+
+        fun bind(note:Note) {
+            id = note.id
+            title.text = note.title
+            content.text = note.content
+        }
 
     }
 }

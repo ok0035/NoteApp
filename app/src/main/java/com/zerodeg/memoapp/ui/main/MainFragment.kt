@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.zerodeg.memoapp.databinding.MainFragmentBinding
+import com.zerodeg.memoapp.ui.notelist.NoteListAdapter
+import com.zerodeg.memoapp.ui.notelist.NoteListViewModel
 
 class MainFragment : Fragment() {
     //메모 리스트를 뿌려준다.
@@ -19,6 +21,7 @@ class MainFragment : Fragment() {
     }
 
     private lateinit var mainViewModel: MainViewModel
+    private lateinit var noteListViewModel: NoteListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +34,14 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        noteListViewModel = ViewModelProvider(this)[NoteListViewModel::class.java]
         // TODO: Use the ViewModel
+        val noteAdapter = NoteListAdapter()
+        binding.rvNoteList.adapter = noteAdapter
+
+        noteListViewModel.noteLiveData.observe(viewLifecycleOwner) {
+            noteAdapter.submitList(it)
+        }
 
     }
 
