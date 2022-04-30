@@ -34,10 +34,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildToolsVersion '32.0.0'
 }
 
 dependencies {
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     var roomVersion = "2.4.2"
 
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -60,11 +60,11 @@ dependencies {
     // optional - RxJava3 support for Room
     implementation("androidx.room:room-rxjava3:$roomVersion")
     // optional - Guava support for Room, including Optional and ListenableFuture
-    implementation("androidx.room:room-guava:$roomVersion")
+//    implementation("androidx.room:room-guava:$roomVersion")
     // optional - Test helpers
     testImplementation("androidx.room:room-testing:$roomVersion")
     // optional - Paging 3 Integration
-    implementation("androidx.room:room-paging:2.5.0-alpha01")
+//    implementation("androidx.room:room-paging:2.5.0-alpha01")
 
     //fragment
     var fragment_version = "1.4.1"
@@ -79,12 +79,11 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
     // Feature module Support
-    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
+//    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
     // Testing Navigation
-    androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
+//    androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
     //safe args
-    implementation("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
-
+//    implementation("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
 
     // Jetpack Compose Integration
 //    implementation("androidx.navigation:navigation-compose:$nav_version")

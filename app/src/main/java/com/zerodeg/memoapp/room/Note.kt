@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class Note(
     var title: String,
     var content: String,
+    var password:String?,
 ) {
     @PrimaryKey(autoGenerate = true) var id:Int = 0
 }
