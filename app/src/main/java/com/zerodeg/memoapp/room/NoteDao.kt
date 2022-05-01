@@ -1,19 +1,21 @@
 package com.zerodeg.memoapp.room
 
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NoteDao {
 
     @Query("SELECT * FROM Note")
-    fun getAll(): Flow<List<Note>>
+    fun getAll(): List<Note>
+
+    @Query("SELECT * FROM Note WHERE title LIKE '%' || :searching || '%'")
+    fun search(searching: String?): List<Note>
 
     @Insert
     fun insert(note:Note)
 
-    @Update
-    fun update(note:Note)
+    @Query("UPDATE Note SET title=:title, content=:content, password=:password WHERE id = :id")
+    fun update(id:Int, title:String, content: String, password: String)
 
     @Delete
     fun delete(note:Note)
@@ -23,4 +25,7 @@ interface NoteDao {
 
     @Query("DELETE FROM Note WHERE id = :id")
     fun deleteById(id: Int)
+
+    @Query("SELECT count(*)!=0 FROM Note WHERE id = :id ")
+    fun containsPrimaryKey(id: Int): Boolean
 }

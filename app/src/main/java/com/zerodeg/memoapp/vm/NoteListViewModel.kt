@@ -12,17 +12,51 @@ import kotlinx.coroutines.launch
 
 class NoteListViewModel : ViewModel() {
 
-    private val noteList = mutableListOf<Note>()
-    val noteListLiveData: MutableLiveData<List<Note>> by lazy { MutableLiveData(noteList) }
+    val noteListLiveData: MutableLiveData<List<Note>> by lazy { MutableLiveData(mutableListOf()) }
     val noteLiveData: MutableLiveData<Note> = MutableLiveData()
+    var currentNote :Note? = null
 
-    fun loadNote(note:Note) {
+    fun loadNote(note: Note) {
         App.log("loadNote", "load")
         noteLiveData.postValue(note)
     }
 
-    fun updateNote(note:Note) {
+    fun searchNote(searchingText: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val db = NoteDatabase.getInstance(App.applicationContext())!!
+            val currentNote = noteListLiveData.value as MutableList
+            currentNote.clear()
+            db.noteDao().search(searchingText).forEach { note ->
+                currentNote.add(0, note)
+                App.log("note", "search note -> ${note.title}")
+            }
+            App.log("noteList", "${currentNote.toList()}")
+            noteListLiveData.postValue(currentNote)
+        }
+    }
 
+    fun newNote() {
+        App.log("newNote", "new")
+        noteLiveData.postValue(Note("", "", null))
+    }
+
+    fun updateNote(note: Note) {
+
+    }
+
+    fun insertNote(title: String, content: String, password: String?) {
+        /*TODO
+        * ROOM을 통해 메모 저장
+        * 리스트에 추가
+        * 메인프래그먼트로 이동
+        * 메인프래그먼트 recyclder view에 추가된 note item 추가
+        * */
+        val note = Note(title, content, password)
+        CoroutineScope(Dispatchers.IO).launch {
+            val db = NoteDatabase.getInstance(App.applicationContext())!!
+            db.noteDao().insert(note)
+            addNote(note)
+        }
     }
 
     fun insertNote(note:Note) {
@@ -32,12 +66,10 @@ class NoteListViewModel : ViewModel() {
         * 메인프래그먼트로 이동
         * 메인프래그먼트 recyclder view에 추가된 note item 추가
         * */
-
         CoroutineScope(Dispatchers.IO).launch {
             val db = NoteDatabase.getInstance(App.applicationContext())!!
             db.noteDao().insert(note)
             addNote(note)
-            db.close()
         }
     }
 
@@ -56,49 +88,50 @@ class NoteListViewModel : ViewModel() {
     }
 
     fun update() { // update from note database
+
         CoroutineScope(Dispatchers.IO).launch {
             val db = NoteDatabase.getInstance(App.applicationContext())!!
-            noteList.clear()
-            db.noteDao().getAll().collect {
-                it.forEach { note ->
-                    noteList.add(0, note)
-                    App.log("note", "update note -> ${note.title}")
-                }
-                App.log("noteList", "${noteList.toList()}")
-                noteListLiveData.postValue(noteList)
+            val currentList = noteListLiveData.value as MutableList<Note>
+            currentList.clear()
+            db.noteDao().getAll().forEach { note ->
+                currentList.add(0, note)
+                App.log("note", "update note -> ${note.title}")
             }
-
-            db.close()
+            noteListLiveData.postValue(currentList)
 
         }
     }
 
-    fun loadSavedNote() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val db = NoteDatabase.getInstance(App.applicationContext())!!
-            db.noteDao().getAll().collect {
-                it.forEach { note ->
-                    noteList.add(0, note)
-                    App.log("note", "add note -> ${note.title}")
-                }
-                App.log("noteList", "${noteList.toList()}")
-                noteListLiveData.postValue(noteList)
-            }
-
-            db.close()
-
-        }
-    }
+//    fun loadSavedNote() {
+//        CoroutineScope(Dispatchers.IO).launch {
+//            val db = NoteDatabase.getInstance(App.applicationContext())!!
+//            db.noteDao().getAll().forEach { note ->
+//                noteList.add(0, note)
+//                App.log("note", "add note -> ${note.title}")
+//            }
+//            App.log("noteList", "${noteList.toList()}")
+//            noteListLiveData.postValue(noteList)
+//            db.close()
+//
+//        }
+//    }
 
     fun deleteAllNote() {
 
         CoroutineScope(Dispatchers.IO).launch {
             val db = NoteDatabase.getInstance(App.applicationContext())!!
             db.noteDao().deleteAll()
-            db.close()
+            val currentNoteList = noteListLiveData.value as MutableList<Note>
+            currentNoteList.clear()
+            noteListLiveData.postValue(currentNoteList)
+        }
+    }
 
-            noteList.clear()
-            noteListLiveData.postValue(noteList)
+    fun deleteByID(id:Int) {
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val db = NoteDatabase.getInstance(App.applicationContext())!!
+            db.noteDao().deleteById(id)
         }
     }
 

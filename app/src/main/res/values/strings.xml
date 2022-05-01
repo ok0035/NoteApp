@@ -6,4 +6,8 @@
     <string name="password_input_hint">비밀번호를 입력하세요.</string>
     <string name="input_content_hint">내용을 입력하세요.</string>
     <string name="lock_text">비밀글</string>
+    <string name="character_size_label">글자수 :</string>
+    <string name="input_searching">검색어를 입력하세요.</string>
+    <string name="input_password">비밀번호를 입력하세요.</string>
+    <string name="confirm">확인</string>
 </resources>

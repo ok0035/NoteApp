@@ -10,11 +10,17 @@
         <entry key="..\:/Mine/Project/flutter/MemoApp/app/src/main/res/layout/main_fragment.xml" value="0.14492753623188406" />
         <entry key="..\:/Projects/android/NoteApp/app/src/main/res/drawable/input_border.xml" value="0.2055" />
         <entry key="..\:/Projects/android/NoteApp/app/src/main/res/drawable/note_back.xml" value="0.2055" />
+        <entry key="..\:/Projects/android/NoteApp/app/src/main/res/drawable/note_item_back.xml" value="0.2055" />
+        <entry key="..\:/Projects/android/NoteApp/app/src/main/res/drawable/password_dialog.xml" value="0.2055" />
         <entry key="..\:/Projects/android/NoteApp/app/src/main/res/drawable/round_back.xml" value="0.2055" />
+        <entry key="..\:/Projects/android/NoteApp/app/src/main/res/drawable/search-48px.xml" value="0.2055" />
+        <entry key="..\:/Projects/android/NoteApp/app/src/main/res/drawable/search.xml" value="0.2055" />
+        <entry key="..\:/Projects/android/NoteApp/app/src/main/res/drawable/search_back.xml" value="0.2055" />
         <entry key="..\:/Projects/android/NoteApp/app/src/main/res/layout/main_activity.xml" value="0.1" />
-        <entry key="..\:/Projects/android/NoteApp/app/src/main/res/layout/main_fragment.xml" value="0.1" />
-        <entry key="..\:/Projects/android/NoteApp/app/src/main/res/layout/note_fragment.xml" value="0.25" />
+        <entry key="..\:/Projects/android/NoteApp/app/src/main/res/layout/main_fragment.xml" value="0.33" />
+        <entry key="..\:/Projects/android/NoteApp/app/src/main/res/layout/note_fragment.xml" value="0.33" />
         <entry key="..\:/Projects/android/NoteApp/app/src/main/res/layout/note_item.xml" value="0.13095238095238096" />
+        <entry key="..\:/Projects/android/NoteApp/app/src/main/res/layout/password_dialog.xml" value="0.33" />
       </map>
     </option>
   </component>

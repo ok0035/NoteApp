@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 
 class NoteRepository(private val noteDao: NoteDao) {
-    val allNote: Flow<List<Note>> = noteDao.getAll()
+    val allNote: List<Note> = noteDao.getAll()
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
@@ -15,8 +15,8 @@ class NoteRepository(private val noteDao: NoteDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun update(note: Note) {
-        noteDao.update(note)
+    suspend fun update(id:Int, title:String, content: String, password:String) {
+        noteDao.update(id, title, content, password)
     }
 
     @Suppress("RedundantSuspendModifier")

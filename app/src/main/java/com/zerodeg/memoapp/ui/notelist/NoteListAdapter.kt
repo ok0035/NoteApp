@@ -12,11 +12,12 @@ import com.zerodeg.memoapp.R
 import com.zerodeg.memoapp.databinding.NoteItemBinding
 import com.zerodeg.memoapp.room.Note
 
-class NoteListAdapter(val noteInterface: NoteInterface): RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>() {
+class NoteListAdapter(private val noteInterface: NoteInterface): RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>() {
 
     private var _binding:NoteItemBinding? = null
     private val binding get() = _binding
     private var noteList:List<Note> = mutableListOf()
+    val holderList:MutableList<NoteListViewHolder> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListViewHolder {
         val inflater = LayoutInflater.from(App.applicationContext())
@@ -25,7 +26,9 @@ class NoteListAdapter(val noteInterface: NoteInterface): RecyclerView.Adapter<No
     }
 
     override fun onBindViewHolder(holder: NoteListViewHolder, position: Int) {
-        holder.bind(noteList[position])
+        if(noteList.size > position)
+            holder.bind(noteList[position])
+        holderList.add(holder)
     }
 
     override fun getItemId(position: Int): Long {
@@ -38,7 +41,8 @@ class NoteListAdapter(val noteInterface: NoteInterface): RecyclerView.Adapter<No
 
     fun submitList(list:List<Note>) {
         noteList = list
-        notifyItemChanged(list.lastIndex)
+        holderList.clear()
+        notifyDataSetChanged()
     }
 
     fun getNote(position: Int):Note {
@@ -48,7 +52,7 @@ class NoteListAdapter(val noteInterface: NoteInterface): RecyclerView.Adapter<No
     class NoteListViewHolder(binding: NoteItemBinding, private val noteInterface: NoteInterface): RecyclerView.ViewHolder(binding.root),
     View.OnClickListener {
 
-        private val checkBoxView: CheckBox = binding.select
+        val checkBoxView: CheckBox = binding.select
         private val titleTextView: TextView = binding.title
         private val contentTextView: TextView = binding.content
         private var password: String? = null
@@ -59,11 +63,21 @@ class NoteListAdapter(val noteInterface: NoteInterface): RecyclerView.Adapter<No
         }
 
         fun bind(note:Note) {
-            id = note.id
-            titleTextView.text = note.title
-            contentTextView.text = note.content
-            checkBoxView.isChecked = false
-            password = note.password
+
+            if(!note.password.isNullOrEmpty()) {
+                id = note.id
+                titleTextView.text = note.title
+                contentTextView.text = "***"
+                checkBoxView.isChecked = false
+                password = note.password
+            } else {
+
+                id = note.id
+                titleTextView.text = note.title
+                contentTextView.text = note.content
+                checkBoxView.isChecked = false
+                password = note.password
+            }
         }
 
         override fun onClick(p0: View?) {
