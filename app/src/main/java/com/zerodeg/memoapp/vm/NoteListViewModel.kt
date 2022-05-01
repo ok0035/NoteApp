@@ -19,6 +19,7 @@ class NoteListViewModel : ViewModel() {
     fun loadNote(note: Note) {
         App.log("loadNote", "load")
         noteLiveData.postValue(note)
+        currentNote = note
     }
 
     fun searchNote(searchingText: String) {
@@ -37,7 +38,9 @@ class NoteListViewModel : ViewModel() {
 
     fun newNote() {
         App.log("newNote", "new")
-        noteLiveData.postValue(Note("", "", null))
+        val note = Note("", "", null)
+        noteLiveData.postValue(note)
+        currentNote = note
     }
 
     fun updateNote(note: Note) {
@@ -97,7 +100,9 @@ class NoteListViewModel : ViewModel() {
                 currentList.add(0, note)
                 App.log("note", "update note -> ${note.title}")
             }
-            noteListLiveData.postValue(currentList)
+            CoroutineScope(Dispatchers.Main).launch {
+                noteListLiveData.value = currentList
+            }
 
         }
     }
@@ -132,6 +137,7 @@ class NoteListViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             val db = NoteDatabase.getInstance(App.applicationContext())!!
             db.noteDao().deleteById(id)
+            update()
         }
     }
 

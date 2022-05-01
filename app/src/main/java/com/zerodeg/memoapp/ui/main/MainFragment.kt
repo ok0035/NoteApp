@@ -55,9 +55,10 @@ class MainFragment : BaseFragment(), NoteInterface, MainInterface {
         val noteAdapter = NoteListAdapter(this)
         binding.rvNoteList.adapter = noteAdapter
         noteListViewModel.noteListLiveData.observe(viewLifecycleOwner) {
-            App.log("NoteListViewModel", "changed data -> $it")
+//            App.log("NoteListViewModel", "changed data -> $it")
             //중복되는 현상 방지 위해서 distinct 사용
-            noteAdapter.submitList(it.distinct())
+            if(it != null)
+                noteAdapter.submitList(it.distinct())
         }
         noteListViewModel.update()
         binding.editSearch.addTextChangedListener {
@@ -95,10 +96,10 @@ class MainFragment : BaseFragment(), NoteInterface, MainInterface {
         println(adapter.holderList.toList()[0].checkBoxView.isChecked)
         adapter.holderList.forEach {
             if(it.checkBoxView.isChecked) {
+                App.log("delete", "id -> $id")
                 noteListViewModel.deleteByID(it.id!!)
             }
         }
-        noteListViewModel.update()
     }
 
     override fun changedSearchingTest(edit: Editable?) {

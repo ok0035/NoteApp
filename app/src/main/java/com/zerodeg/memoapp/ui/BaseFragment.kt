@@ -13,4 +13,11 @@ open class BaseFragment: Fragment() {
             .commit()
     }
 
+    fun replaceNoBackStack(fragment: Fragment) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
 }

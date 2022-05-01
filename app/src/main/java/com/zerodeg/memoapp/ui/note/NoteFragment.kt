@@ -24,7 +24,6 @@ class NoteFragment : BaseFragment() {
     //recycler view에서 item click시 여기서 메모 보여주기
     private var _binding: NoteFragmentBinding? = null
     private val binding get() = _binding!!
-    private var currentNote: Note? = null
 
     companion object {
         private var instance: NoteFragment? = null
@@ -44,24 +43,35 @@ class NoteFragment : BaseFragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        clearView()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        noteListViewModel = ViewModelProvider(this)[NoteListViewModel::class.java]
 
+        clearView()
+
         // TODO: Use the ViewModel
         noteListViewModel.noteLiveData.observe(viewLifecycleOwner) {
+            App.log("NoteViewModel", "Note -> ${it.title} ${it.content}")
 
-            App.log("NoteViewModel", "Note -> ${it.title}")
+            CoroutineScope(Dispatchers.Main).launch {
+                binding.title.setText(it.title)
+                binding.content.setText(it.content)
+                binding.isLock.isChecked = !it.password.isNullOrEmpty()
+                noteListViewModel.currentNote = it
 
-            binding.title.setText(it.title)
-            binding.content.setText(it.content)
-            binding.isLock.isChecked = !it.password.isNullOrEmpty()
-            currentNote = it
-
-            //비밀번호가 있다면 입력해놓음 - 이미 비밀번호를 치고 들어왔기에 다시 칠 필요가 없으므로
-            if (binding.password.text.toString().isEmpty())
-                CoroutineScope(Dispatchers.Main).launch {
-                    binding.password.setText(currentNote!!.password)
+                //비밀번호가 있다면 입력해놓음 - 이미 비밀번호를 치고 들어왔기에 다시 칠 필요가 없으므로
+                if (binding.title.text.toString().isNotEmpty() &&
+                    binding.content.text.toString().isNotEmpty()
+                ) {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        binding.password.setText(noteListViewModel.currentNote!!.password)
+                    }
+                    App.log("noteListViewModel", "password...")
                 }
 
 //            if (it.title == "" && it.content == "" && it.password == null) {
@@ -71,23 +81,31 @@ class NoteFragment : BaseFragment() {
 //                else noteListViewModel.insertNote(it.title, it.content, it.password)
 //            }
 
-            if (binding.isLock.isChecked) {
-                binding.password.visibility = View.VISIBLE
-            } else binding.password.visibility = View.INVISIBLE
+                if (binding.isLock.isChecked) {
+                    binding.password.visibility = View.VISIBLE
+                } else binding.password.visibility = View.INVISIBLE
+            }
 
         }
 
         binding.saveBtn.setOnClickListener {
+            if (binding.title.text.toString().isEmpty() &&
+                binding.content.text.toString().isEmpty()
+            ) {
+                replaceNoBackStack(MainFragment.getInstance())
+                clearView()
+            }
 
             //DB에 수정내용 저장
             CoroutineScope(Dispatchers.IO).launch {
                 val db = NoteDatabase.getInstance(App.applicationContext())!!
 
-                if (currentNote != null && db.noteDao().containsPrimaryKey(currentNote!!.id)) {
+                if (noteListViewModel.currentNote != null &&
+                    db.noteDao().containsPrimaryKey(noteListViewModel.currentNote!!.id)) {
                     //update
 
                     db.noteDao().update(
-                        currentNote!!.id,
+                        noteListViewModel.currentNote!!.id,
                         binding.title.text.toString(),
                         binding.content.text.toString(),
                         binding.password.text.toString()
@@ -95,7 +113,7 @@ class NoteFragment : BaseFragment() {
 
                     App.log(
                         "saveBtn",
-                        "update id -> ${currentNote!!.id}  ${currentNote!!.title} ${currentNote!!.content}"
+                        "update id -> ${noteListViewModel.currentNote!!.id}  ${noteListViewModel.currentNote!!.title} ${noteListViewModel.currentNote!!.content}"
                     )
                 } else {
 
@@ -119,10 +137,24 @@ class NoteFragment : BaseFragment() {
                 binding.password.visibility = View.VISIBLE
             } else binding.password.visibility = View.INVISIBLE
         }
-
         binding.content.addTextChangedListener {
             binding.characterSize.text = it!!.length.toString()
         }
+
+
+    }
+
+
+
+    fun clearView() {
+
+        CoroutineScope(Dispatchers.Main).launch {
+            binding.content.setText("")
+            binding.title.setText("")
+            binding.password.setText("")
+            binding.isLock.isChecked = false
+        }
+
     }
 
     override fun onDestroyView() {
