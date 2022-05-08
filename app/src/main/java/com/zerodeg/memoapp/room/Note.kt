@@ -8,6 +8,7 @@ data class Note(
     var title: String,
     var content: String,
     var password:String?,
+    var isLock:Boolean,
 ) {
     @PrimaryKey(autoGenerate = true) var id:Int = 0
 }

@@ -15,8 +15,8 @@ class NoteDataViewModel(private val noteRepository: NoteRepository) : ViewModel(
         noteRepository.insert(note)
     }
 
-    fun update(id:Int, title:String, content: String, password: String) = viewModelScope.launch {
-        noteRepository.update(id, title, content, password)
+    fun update(id:Int, title:String, content: String, password: String, isLock:Boolean) = viewModelScope.launch {
+        noteRepository.update(id, title, content, password, isLock)
     }
 
     fun deleteById(id: Int) = viewModelScope.launch {

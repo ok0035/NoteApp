@@ -1,13 +1,10 @@
 package com.zerodeg.memoapp
 
-import android.app.ProgressDialog.show
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import com.zerodeg.memoapp.ui.PasswordDialog
 import com.zerodeg.memoapp.ui.main.MainFragment
 import com.zerodeg.memoapp.vm.NoteListViewModel
 

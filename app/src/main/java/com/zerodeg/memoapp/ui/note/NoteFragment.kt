@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.annotation.Nullable
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import com.zerodeg.memoapp.App
@@ -92,8 +94,8 @@ class NoteFragment : BaseFragment() {
             if (binding.title.text.toString().isEmpty() &&
                 binding.content.text.toString().isEmpty()
             ) {
-                replaceNoBackStack(MainFragment.getInstance())
-                clearView()
+                Toast.makeText(App.applicationContext(), "내용을 입력해주세요.", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
             }
 
             //DB에 수정내용 저장
@@ -108,7 +110,8 @@ class NoteFragment : BaseFragment() {
                         noteListViewModel.currentNote!!.id,
                         binding.title.text.toString(),
                         binding.content.text.toString(),
-                        binding.password.text.toString()
+                        binding.password.text.toString(),
+                        binding.isLock.isChecked
                     )
 
                     App.log(
@@ -121,7 +124,8 @@ class NoteFragment : BaseFragment() {
                     val note = Note(
                         binding.title.text.toString(),
                         binding.content.text.toString(),
-                        binding.password.text.toString()
+                        binding.password.text.toString(),
+                        binding.isLock.isChecked
                     )
                     noteListViewModel.insertNote(note)
 
@@ -144,10 +148,8 @@ class NoteFragment : BaseFragment() {
 
     }
 
-
-
+    @Nullable
     fun clearView() {
-
         CoroutineScope(Dispatchers.Main).launch {
             binding.content.setText("")
             binding.title.setText("")

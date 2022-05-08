@@ -38,7 +38,7 @@ class NoteListViewModel : ViewModel() {
 
     fun newNote() {
         App.log("newNote", "new")
-        val note = Note("", "", null)
+        val note = Note("", "", null, false)
         noteLiveData.postValue(note)
         currentNote = note
     }
@@ -47,14 +47,14 @@ class NoteListViewModel : ViewModel() {
 
     }
 
-    fun insertNote(title: String, content: String, password: String?) {
+    fun insertNote(title: String, content: String, password: String?, isLock:Boolean) {
         /*TODO
         * ROOM을 통해 메모 저장
         * 리스트에 추가
         * 메인프래그먼트로 이동
         * 메인프래그먼트 recyclder view에 추가된 note item 추가
         * */
-        val note = Note(title, content, password)
+        val note = Note(title, content, password, isLock)
         CoroutineScope(Dispatchers.IO).launch {
             val db = NoteDatabase.getInstance(App.applicationContext())!!
             db.noteDao().insert(note)

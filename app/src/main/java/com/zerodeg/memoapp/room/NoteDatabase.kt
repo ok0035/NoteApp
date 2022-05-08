@@ -10,7 +10,7 @@ abstract class NoteDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
 
     companion object {
-        private const val DATABASE_NAME = "Notes"
+        private const val DATABASE_NAME = "Note"
         private var instance: NoteDatabase? = null
 
         @Synchronized
@@ -25,7 +25,6 @@ abstract class NoteDatabase : RoomDatabase() {
                 }
             }
             return instance
-
         }
 
     }

@@ -15,8 +15,8 @@ class NoteRepository(private val noteDao: NoteDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun update(id:Int, title:String, content: String, password:String) {
-        noteDao.update(id, title, content, password)
+    suspend fun update(id:Int, title:String, content: String, password:String, isLock:Boolean) {
+        noteDao.update(id, title, content, password, isLock)
     }
 
     @Suppress("RedundantSuspendModifier")
