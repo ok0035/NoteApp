@@ -28,6 +28,7 @@
         android:hint="@string/title_hint"
         android:padding="5dp"
         android:layout_marginTop="10dp"
+        android:textColor="@color/black"
         android:background="@drawable/input_border"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/saveBtn"
@@ -56,6 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/password_input_hint"
+        android:textColor="@color/black"
         android:background="@drawable/input_border"
         android:padding="5dp"
         android:visibility="invisible"
@@ -69,6 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:hint="@string/input_content_hint"
+        android:textColor="@color/black"
         android:background="@drawable/note_back"
         android:layout_marginTop="20dp"
         android:padding="5dp"
@@ -83,6 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/character_size_label"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/characterSize"/>
 
@@ -91,6 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
