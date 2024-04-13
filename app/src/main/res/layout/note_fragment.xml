@@ -47,6 +47,7 @@
         android:id="@+id/lock_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:text="@string/lock_text"
         app:layout_constraintStart_toEndOf="@id/isLock"
         app:layout_constraintTop_toTopOf="@id/isLock"
